@@ -1,0 +1,4 @@
+yfinance
+streamlit
+scikit-learn
+plotly-express
