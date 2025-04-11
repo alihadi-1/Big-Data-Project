@@ -7,18 +7,18 @@ counts = defaultdict(int)
 maximum = defaultdict(int)
 
 for line in sys.stdin:
-    key, value = line.strip().split('\t')
-    value = float(value)
+    try:
+        key, value = line.strip().split('\t')
+        value = float(value)
 
-    if key == "close":
-        totals[key] += value
-        counts[key] += 1
-    elif key == "volume":
-        maximum[key] = max(maximum[key], int(value))
+        if key == "Close":
+            totals[key] += value
+            counts[key] += 1
+        elif key == "volume":
+            maximum[key] = max(maximum[key], int(value))
+    except:
+        continue
 
-# Output
-if "close" in totals:
-    avg = totals["close"] / counts["close"]
-    print(f"Average Close:\t{avg:.2f}")
-if "volume" in maximum:
-    print(f"Max Volume:\t{maximum['volume']}")
+if counts["Close"] > 0:
+    avg_close = totals["Close"] / counts["Close"]
+

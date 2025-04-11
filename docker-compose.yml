@@ -2,17 +2,18 @@ version: "3.8"
 
 services:
   namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    build:
+      context: .
+      dockerfile: Dockerfile.namenode
     container_name: namenode
     ports:
       - "9870:9870"   # NameNode UI
-      - "9000:9000"   # HDFS
+      - "9000:9000"   # HDFS service
     environment:
       - CLUSTER_NAME=stock-hadoop
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     volumes:
       - ./data:/data
-      - ./bootstrap:/docker-entrypoint-init.d  # Automatically inject scripts
     networks:
       - hadoop
 
@@ -28,26 +29,5 @@ services:
     networks:
       - hadoop
 
-  streamlit:
-    image: python:3.11-slim
-    container_name: streamlit
-    command: >
-      bash -c "
-        pip install streamlit yfinance plotly scikit-learn &&
-        streamlit run /data/app.py --server.port 8501 --server.enableCORS false
-      "
-    volumes:
-      - ./data:/data
-    ports:
-      - "8501:8501"
-    networks:
-      - hadoop
-    depends_on:
-      - namenode
-
 networks:
   hadoop:
-
-volumes:
-  hadoop_namenode:
-  hadoop_datanode:
