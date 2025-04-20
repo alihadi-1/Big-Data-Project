@@ -2,3 +2,5 @@ yfinance
 streamlit
 scikit-learn
 plotly-express
+tensorflow
+pandas

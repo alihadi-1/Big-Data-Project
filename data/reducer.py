@@ -11,7 +11,7 @@ for line in sys.stdin:
         key, value = line.strip().split('\t')
         value = float(value)
 
-        if key == "Close":
+        if key == "close":
             totals[key] += value
             counts[key] += 1
         elif key == "volume":
@@ -19,6 +19,9 @@ for line in sys.stdin:
     except:
         continue
 
-if counts["Close"] > 0:
-    avg_close = totals["Close"] / counts["Close"]
+if counts["close"] > 0:
+    avg_close = totals["close"] / counts["close"]
+    print("Average Close\t%.2f" % avg_close)
 
+if "volume" in maximum:
+    print("Max Volume\t%d" % maximum["volume"])
